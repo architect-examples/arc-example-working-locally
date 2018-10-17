@@ -1,6 +1,6 @@
 # arc-example-working-locally
 
-extends the tutorial from [https://arc.codes/guides/offline](arc.codes/guides/offline) with a JSON API that does classic CRUD
+extends the tutorial from <https://arc.codes/guides/offline> with a JSON API that does classic CRUD
 
 setup
 ```bash
