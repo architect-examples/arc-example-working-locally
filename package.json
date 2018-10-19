@@ -4,15 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-     "test": "NODE_ENV=testing AWS_PROFILE=smallwins AWS_REGION=us-east-1 tape tests/*-test.js | tap-spec"
+    "test": "NODE_ENV=testing AWS_PROFILE=smallwins AWS_REGION=us-east-1 tape tests/*-test.js | tap-spec"
   },
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@architect/workflows": "file:../../Repo/arc-workflows"
+    "@architect/workflows": "file:../arc-workflows"
   },
   "devDependencies": {
     "tap-spec": "^5.0.0",
-    "tape": "^4.9.1"
+    "tape": "^4.9.1",
+    "tiny-json-http": "^7.0.0"
   }
 }

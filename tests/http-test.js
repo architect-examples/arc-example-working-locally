@@ -39,6 +39,7 @@ let cat
 test('post /api/cats', async t=> {
   t.plan(1)
   try {
+    console.log('calling into tiny')
     let result = await tiny.post({
       url: 'http://localhost:3333/api/cats',
       data: {
@@ -47,11 +48,13 @@ test('post /api/cats', async t=> {
         name: 'sutr0'
       }
     }) 
+    console.log('calling aftetr await tiny')
     cat = result.body
     t.ok(cat.hasOwnProperty('catID'), 'got 200 response')
     console.log(cat)
   }
   catch(e) {
+    console.log('calling tiny fail')
     t.fail(e)
     console.log(e)
   }
@@ -112,7 +115,6 @@ test('delete /api/cats/:catID', async t=> {
     t.fail(e)  
   }
 })
-
 
 /** 
  * finally close the server so we cleanly exit the test

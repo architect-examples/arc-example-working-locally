@@ -1,13 +1,9 @@
 @app
 testapp
 
-@html
-get /
-
-@json
-get /api
-
 @http
+get /
+get /api
 get /api/cats
 get /api/cats/:catID
 post /api/cats

@@ -1,6 +1,8 @@
 let data = require('@architect/data')
 
 exports.handler = async function http(req) {
+  console.log('got post', req)
+
   try {
     if (!req.body.catID)
       throw ReferenceError('missing catID')
