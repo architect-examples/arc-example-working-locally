@@ -1,7 +1,7 @@
 // tests/http-test.js
 var test = require('tape')
 var tiny = require('tiny-json-http')
-var arc = require('@architect/workflows')
+var arc = require('@architect/architect')
 var close
 
 test('env', t=> {
@@ -15,7 +15,7 @@ test('env', t=> {
 var server
 test('arc.sandbox.start', t=> {
   t.plan(1)
-  arc.sandbox.start(function _start(_close) {
+  arc.sandbox.start(function _start(err, _close) {
     close = _close
     t.ok(true, 'http server started on http://localhost:3333')
   })

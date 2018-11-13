@@ -9,7 +9,7 @@
   "author": "Brian LeRoux <b@brian.io>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@architect/workflows": "file:../arc-workflows"
+    "@architect/architect": "^4.3.1"
   },
   "devDependencies": {
     "tap-spec": "^5.0.0",
