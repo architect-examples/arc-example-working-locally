@@ -1,6 +1,8 @@
-let data = require('@architect/data')
+const arc = require('@architect/functions')
 
-exports.handler = async function http(req) {
+exports.handler = arc.http.async(handler)
+
+async function handler (req) {
   try {
     if (!req.body.catID)
       throw ReferenceError('missing catID')
@@ -12,6 +14,8 @@ exports.handler = async function http(req) {
       throw ReferenceError('missing name')
 
     let {catID, pplID, name} = req.body
+    
+    let data = await arc.tables()
 
     await data.cats.update({
       Key: {
@@ -28,21 +32,17 @@ exports.handler = async function http(req) {
 
     return {
       status: 201,
-      type: 'application/json; charset=utf8',
-      body: JSON.stringify(req.body, null, 2),
-      cors: true
+      json: req.body,
     }
   }
   catch(e) {
     return {
       status: 500,
-      type: 'application/json; charset=utf8',
-      body: JSON.stringify({
+      json: {
         name: e.name,
         message: e.message,
         stack:e.stack
-      }, null, 2),
-      cors: true,
+      }
     }
   }
 }

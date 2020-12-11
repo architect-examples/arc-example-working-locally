@@ -1,9 +1,7 @@
-exports.handler = async function http(request) {
+exports.handler = async function http (req) {
   return {
-    status: 201,
-    type: 'text/html; charset=utf8',
-    body: `
-      <h1>hello world!</h1>
-    `
+    statusCode: 201,
+    headers: { 'content-type': 'text/html; charset=utf8' },
+    body: `<h1>hello world!</h1>`
   }
 }

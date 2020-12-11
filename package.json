@@ -1,19 +1,12 @@
 {
-  "name": "test-test",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=testing AWS_PROFILE=smallwins AWS_REGION=us-east-1 tape tests/*-test.js | tap-spec"
+    "test": "tape tests/*-test.js | tap-spec"
   },
-  "author": "Brian LeRoux <b@brian.io>",
-  "license": "Apache-2.0",
   "dependencies": {
-    "@architect/architect": "^4.3.1"
-  },
-  "devDependencies": {
-    "tap-spec": "^5.0.0",
-    "tape": "^4.9.1",
-    "tiny-json-http": "^7.0.0"
+    "@architect/functions": "latest",
+    "@architect/sandbox": "^3.3.1-RC.0",
+    "tap-spec": "latest",
+    "tape": "latest",
+    "tiny-json-http": "latest"
   }
 }

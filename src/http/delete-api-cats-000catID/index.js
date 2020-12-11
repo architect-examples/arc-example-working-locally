@@ -1,28 +1,27 @@
-let data = require('@architect/data')
+let arc = require('@architect/functions')
 
-exports.handler = async function http(req) {
+exports.handler = arc.http.async(handler)
+
+async function handler (req) {
   try {
     let parts = req.params.catID.split('-')
     let pplID = parts[0]
     let catID = parts[1]
-    await data.cats.delete({pplID, catID})
+    let data = await arc.tables()
+    await data.cats.delete({ pplID, catID })
     return {
       status: 201,
-      type: 'application/json; charset=utf8',
-      body: JSON.stringify({deleted: true}),
-      cors: true
+      json: { deleted: true }
     }
   }
-  catch(e) {
+  catch (e) {
     return {
       status: 500,
-      type: 'application/json; charset=utf8',
-      body: JSON.stringify({
+      json: {
         name: e.name,
         message: e.message,
         stack:e.stack
-      }, null, 2),
-      cors: true,
+      }
     }
   }
 }

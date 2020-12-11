@@ -1,18 +1,14 @@
-// tests/db-test.js
-var AWS = require('aws-sdk')
-var endpoint = new AWS.Endpoint('http://localhost:5000')
-var db = process.env.NODE_ENV === 'testing'? new AWS.DynamoDB({endpoint}) : new AWS.DynamoDB
-
-var test = require('tape')
-var arc = require('@architect/workflows')
+const AWS = require('aws-sdk')
+const test = require('tape')
+const sandbox = require('@architect/sandbox')
 
 /**
- * first we need to start the local db server and grab a reference to the client
+ * start the sandbox
  */
-var client 
-test('arc.sandbox.db.start', t=>{
+test('sandbox.start', async t=>{
   t.plan(1)
-  client = arc.sandbox.db.start(xxx=> t.ok(true, 'started'))
+  await sandbox.start()
+  t.ok(true, 'started')
 })
 
 /**
@@ -21,7 +17,9 @@ test('arc.sandbox.db.start', t=>{
 test('db', t=> {
   t.plan(1)
   // note: we do not need to create the tables the
-  // sandbox detected the .arc and did that above
+  // sandbox detected the app.arc and did that above
+  var endpoint = new AWS.Endpoint('http://localhost:5000')
+  var db = new AWS.DynamoDB({endpoint}) 
   db.listTables({}, function _list(err, result) {
     if (err) throw err
     t.ok(result, 'got result')
@@ -30,11 +28,10 @@ test('db', t=> {
 })
 
 /** 
- * finally close the db client so we cleanly exit the test
+ * finally sandbox.end so we cleanly exit the test
  */
-test('arc.sandbox.db.close', t=>{
+test('sandbox.end', async t=>{
   t.plan(1)
-  // finally we'll use that client reference from above to close the sandbox
-  client.close()
+  await sandbox.end()
   t.ok(true, 'closed')
 })

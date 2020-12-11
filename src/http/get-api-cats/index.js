@@ -1,24 +1,21 @@
-let data = require('@architect/data')
+let arc = require('@architect/functions')
 
-exports.handler = async function http(req) {
+exports.handler = arc.http.async(handler)
 
-  let cors = true
-  let type = 'application/json; charset=utf8'
-  let status = 201
-  let body
-
+async function handler (req) {
   try {
-    let cats = await data.cats.scan({})
-    body = JSON.stringify(cats, null, 2)
+    let data = await arc.tables()
+    let json = await data.cats.scan({})
+    return { json }
+  } 
+  catch (e) {
+    return {
+      status: 502, 
+      json: {
+        name: e.name,
+        message: e.message,
+        stack:e.stack
+      }
+    }
   }
-  catch(e) {
-    status = 500
-    body =  JSON.stringify({
-      name: e.name,
-      message: e.message,
-      stack:e.stack
-    })
-  }
-
-  return {cors, type, status, body}
 }

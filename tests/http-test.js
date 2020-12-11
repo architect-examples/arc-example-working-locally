@@ -1,63 +1,43 @@
-// tests/http-test.js
-var test = require('tape')
-var tiny = require('tiny-json-http')
-var arc = require('@architect/architect')
-var close
-
-test('env', t=> {
-  t.plan(1)
-  t.ok(arc.sandbox.http, 'arc.sandbox.http exists in current scope')
-})
+const test = require('tape')
+const tiny = require('tiny-json-http')
+const sandbox = require('@architect/sandbox')
 
 /**
  * first we need to start the local http server
  */
-var server
-test('arc.sandbox.start', t=> {
+test('sandbox.start', async t=> {
   t.plan(1)
-  arc.sandbox.start(function _start(err, _close) {
-    close = _close
-    t.ok(true, 'http server started on http://localhost:3333')
-  })
+  await sandbox.start()
+  t.ok(true, 'sandbox started on http://localhost:3333')
 })
 
 /**
  * then we can make a request to it and check the result
  */
-test('get /', t=> {
+test('get /', async t=> {
   t.plan(1)
-  tiny.get({
-    url: 'http://localhost:3333'
-  }, 
-  function _get(err, result) {
-    if (err) throw err
-    t.ok(result.body, 'got 200 response')
-  })
+  let result = await tiny.get({ url: 'http://localhost:3333' }) 
+  t.ok(result, 'got 200 response')
+  console.log(result)
 })
 
+// we will reuse this cat elsewhere
+// tests are all in memory so this is fast!
 let cat
+
 test('post /api/cats', async t=> {
   t.plan(1)
-  try {
-    console.log('calling into tiny')
-    let result = await tiny.post({
-      url: 'http://localhost:3333/api/cats',
-      data: {
-        catID: ''+Date.now(),
-        pplID: 'brianleroux',
-        name: 'sutr0'
-      }
-    }) 
-    console.log('calling aftetr await tiny')
-    cat = result.body
-    t.ok(cat.hasOwnProperty('catID'), 'got 200 response')
-    console.log(cat)
-  }
-  catch(e) {
-    console.log('calling tiny fail')
-    t.fail(e)
-    console.log(e)
-  }
+  let result = await tiny.post({
+    url: 'http://localhost:3333/api/cats',
+    data: {
+      catID: ''+Date.now(),
+      pplID: 'brianleroux',
+      name: 'sutr0'
+    }
+  }) 
+  cat = result.body
+  t.ok(cat.hasOwnProperty('catID'), 'got 200 response')
+  console.log(cat)
 })
 
 test('put /api/cats/:catID', async t=> {
@@ -69,58 +49,44 @@ test('put /api/cats/:catID', async t=> {
       data: cat 
     }) 
     t.ok(result.body, 'got 200 response')
-    console.log(result)
+    console.log(result.body)
   }
   catch(e) {
     t.fail(e)
-    console.log(e)
   }
 })
 
-test('get /api/cats', t=> {
+test('get /api/cats', async t=> {
   t.plan(1)
-  tiny.get({
+  let result = await tiny.get({
     url: 'http://localhost:3333/api/cats'
-  }, 
-  function _get(err, result) {
-    if (err) throw err
-    t.ok(result.body, 'got 200 response')
-    console.log(JSON.stringify(result, null, 2))
-  })
+  }) 
+  t.ok(result.body.Items, 'got 200 response')
+  console.log(JSON.stringify(result.body.Items, null, 2))
 })
 
 test('get /api/cats/:catID', async t=> {
   t.plan(1)
-  try {
-    let url = `http://localhost:3333/api/cats/${cat.catID}`
-    let data = {pplID: 'brianleroux'}
-    let result = await tiny.get({url, data}) 
-    t.ok(result.body, 'got 200 response')
-    console.log(JSON.stringify(result.body))
-  }
-  catch(e) {
-    t.fail(e)  
-  }
+  let url = `http://localhost:3333/api/cats/${cat.catID}`
+  let data = {pplID: 'brianleroux'}
+  let result = await tiny.get({ url, data }) 
+  t.ok(result.body, 'got 200 response')
+  console.log(result.body)
 })
 
 test('delete /api/cats/:catID', async t=> {
   t.plan(1)
-  try {
-    let url = `http://localhost:3333/api/cats/brianleroux-${cat.catID}`
-    let result = await tiny.del({url}) 
-    t.ok(result.body, 'got 200 response')
-    console.log(JSON.stringify(result.body))
-  }
-  catch(e) {
-    t.fail(e)  
-  }
+  let url = `http://localhost:3333/api/cats/brianleroux-${cat.catID}`
+  let result = await tiny.del({ url }) 
+  t.ok(result.body, 'got 200 response')
+  console.log(result.body)
 })
 
 /** 
  * finally close the server so we cleanly exit the test
  */
-test('server.close', t=> {
+test('sandbox.end', async t=> {
   t.plan(1)
-  close()
-  t.ok(true, 'server closed')
+  await sandbox.end()
+  t.ok(true, 'sandbox ended')
 })

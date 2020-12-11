@@ -1,8 +1,8 @@
-let data = require('@architect/data')
+const arc = require('@architect/functions')
 
-exports.handler = async function http(req) {
-  console.log('got post', req)
+exports.handler = arc.http.async(handler)
 
+async function handler (req) {
   try {
     if (!req.body.catID)
       throw ReferenceError('missing catID')
@@ -13,25 +13,22 @@ exports.handler = async function http(req) {
     if (!req.body.name)
       throw ReferenceError('missing name')
 
+    let data = await arc.tables()
     let cat = await data.cats.put(req.body)
 
     return {
       status: 201,
-      type: 'application/json; charset=utf8',
-      body: JSON.stringify(cat, null, 2),
-      cors: true
+      json: cat
     }
   }
   catch(e) {
     return {
       status: 500,
-      type: 'application/json; charset=utf8',
-      body: JSON.stringify({
+      json: {
         name: e.name,
         message: e.message,
         stack:e.stack
-      }, null, 2),
-      cors: true,
+      }
     }
   }
 }
