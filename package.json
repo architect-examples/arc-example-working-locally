@@ -3,10 +3,10 @@
     "test": "tape tests/*-test.js | tap-spec"
   },
   "dependencies": {
-    "@architect/functions": "latest",
-    "@architect/sandbox": "^3.3.1-RC.0",
-    "tap-spec": "latest",
-    "tape": "latest",
-    "tiny-json-http": "latest"
+    "@architect/functions": "^4.0.0",
+    "@architect/sandbox": "^4.1.1",
+    "tap-spec": "^5.0.0",
+    "tape": "^5.3.1",
+    "tiny-json-http": "^7.3.0"
   }
 }

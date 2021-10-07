@@ -1,0 +1,8 @@
+es (6 sloc)  106 Bytes
+   
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
