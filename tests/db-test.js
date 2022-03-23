@@ -16,18 +16,18 @@ test('sandbox.start', async t=>{
  */
 test('db', t=> {
   t.plan(1)
-  // note: we do not need to create the tables the
-  // sandbox detected the app.arc and did that above
-  var endpoint = new AWS.Endpoint('http://localhost:5000')
-  var db = new AWS.DynamoDB({endpoint}) 
+  // Note: we do not need to create tables, Sandbox did that when it booted thie project's app.arc file
+  // Another note: Sandbox ports are dynamic, this is for example purposes only, we suggest @architect/functions
+  var endpoint = new AWS.Endpoint('http://localhost:5555')
+  var db = new AWS.DynamoDB({endpoint})
   db.listTables({}, function _list(err, result) {
     if (err) throw err
     t.ok(result, 'got result')
-    console.log(result) 
+    console.log(result)
   })
 })
 
-/** 
+/**
  * finally sandbox.end so we cleanly exit the test
  */
 test('sandbox.end', async t=>{
