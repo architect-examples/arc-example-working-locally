@@ -5,7 +5,7 @@ const arc = require('@architect/functions')
 
 test('sandbox.start', async t=>{
   t.plan(1)
-  await sandbox.start()
+  await sandbox.start({ quiet: true })
   t.ok(true, 'started')
 })
 
@@ -16,15 +16,15 @@ test('@events', async t=> {
 
   // send a few ping events
   await Promise.all([
-    arc.events.publish({ 
+    arc.events.publish({
       name: 'ping',
       payload: { pingID }
     }),
-    arc.events.publish({ 
+    arc.events.publish({
       name: 'ping',
       payload: { pingID }
     }),
-    arc.events.publish({ 
+    arc.events.publish({
       name: 'ping',
       payload: { pingID }
     })

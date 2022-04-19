@@ -7,7 +7,7 @@ const sandbox = require('@architect/sandbox')
  */
 test('sandbox.start', async t=> {
   t.plan(1)
-  await sandbox.start()
+  await sandbox.start({ quiet: true })
   t.ok(true, 'sandbox started on http://localhost:3333')
 })
 
@@ -16,7 +16,7 @@ test('sandbox.start', async t=> {
  */
 test('get /', async t=> {
   t.plan(1)
-  let result = await tiny.get({ url: 'http://localhost:3333' }) 
+  let result = await tiny.get({ url: 'http://localhost:3333' })
   t.ok(result, 'got 200 response')
   console.log(result)
 })
@@ -34,7 +34,7 @@ test('post /api/cats', async t=> {
       pplID: 'brianleroux',
       name: 'sutr0'
     }
-  }) 
+  })
   cat = result.body
   t.ok(cat.hasOwnProperty('catID'), 'got 200 response')
   console.log(cat)
@@ -46,8 +46,8 @@ test('put /api/cats/:catID', async t=> {
     cat.name = 'Sutro'
     let result = await tiny.put({
       url: 'http://localhost:3333/api/cats/' + cat.catID,
-      data: cat 
-    }) 
+      data: cat
+    })
     t.ok(result.body, 'got 200 response')
     console.log(result.body)
   }
@@ -60,7 +60,7 @@ test('get /api/cats', async t=> {
   t.plan(1)
   let result = await tiny.get({
     url: 'http://localhost:3333/api/cats'
-  }) 
+  })
   t.ok(result.body.Items, 'got 200 response')
   console.log(JSON.stringify(result.body.Items, null, 2))
 })
@@ -69,7 +69,7 @@ test('get /api/cats/:catID', async t=> {
   t.plan(1)
   let url = `http://localhost:3333/api/cats/${cat.catID}`
   let data = {pplID: 'brianleroux'}
-  let result = await tiny.get({ url, data }) 
+  let result = await tiny.get({ url, data })
   t.ok(result.body, 'got 200 response')
   console.log(result.body)
 })
@@ -77,12 +77,12 @@ test('get /api/cats/:catID', async t=> {
 test('delete /api/cats/:catID', async t=> {
   t.plan(1)
   let url = `http://localhost:3333/api/cats/brianleroux-${cat.catID}`
-  let result = await tiny.del({ url }) 
+  let result = await tiny.del({ url })
   t.ok(result.body, 'got 200 response')
   console.log(result.body)
 })
 
-/** 
+/**
  * finally close the server so we cleanly exit the test
  */
 test('sandbox.end', async t=> {

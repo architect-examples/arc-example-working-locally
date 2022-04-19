@@ -1,12 +1,12 @@
 {
   "scripts": {
-    "test": "tape tests/*-test.js | tap-spec"
+    "test": "tape tests/*-test.js | tap-arc"
   },
   "dependencies": {
-    "@architect/functions": "^5.0.4",
-    "@architect/sandbox": "^5.2.0",
-    "tap-spec": "^5.0.0",
-    "tape": "^5.5.2",
+    "@architect/functions": "^5.0.5",
+    "@architect/sandbox": "^5.2.2",
+    "tap-arc": "^0.3.4",
+    "tape": "^5.5.3",
     "tiny-json-http": "^7.4.2"
   }
 }

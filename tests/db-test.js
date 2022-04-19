@@ -7,7 +7,7 @@ const sandbox = require('@architect/sandbox')
  */
 test('sandbox.start', async t=>{
   t.plan(1)
-  await sandbox.start()
+  await sandbox.start({ quiet: true })
   t.ok(true, 'started')
 })
 
